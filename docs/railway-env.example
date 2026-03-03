@@ -1,0 +1,69 @@
+# Railway Environment Variables for Memento MCP
+# Copy this content to Railway's "Variables" section
+# NOTE: Sensitive values (passwords, API keys) should be set as "Secrets" in Railway
+
+# ============================================
+# NEO4J CONFIGURATION (REQUIRED)
+# ============================================
+
+# Neo4j Connection URI
+# Option A - Neo4j AuraDB: bolt://xxx.databases.neo4j.io:7687
+# Option B - Railway-hosted: bolt://neo4j-service.railway.internal:7687
+NEO4J_URI=bolt://your-neo4j-instance:7687
+
+# Neo4j Authentication
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=your_secure_password_here
+
+# Neo4j Database Name
+NEO4J_DATABASE=neo4j
+
+# ============================================
+# VECTOR CONFIGURATION (OPTIONAL - has defaults)
+# ============================================
+
+# Vector index name in Neo4j
+NEO4J_VECTOR_INDEX=entity_embeddings
+
+# Vector dimensions (default: 1536 for OpenAI text-embedding-3-small)
+NEO4J_VECTOR_DIMENSIONS=1536
+
+# Similarity function (cosine or euclidean)
+NEO4J_SIMILARITY_FUNCTION=cosine
+
+# ============================================
+# OPENAI CONFIGURATION (OPTIONAL - uses mock if not set)
+# ============================================
+
+# OpenAI API Key for embeddings
+# Set this as a SECRET in Railway dashboard
+OPENAI_API_KEY=your-openai-api-key
+
+# Embedding model to use
+OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+
+# ============================================
+# RATE LIMITING (OPTIONAL - has defaults)
+# ============================================
+
+# Maximum embedding requests per interval
+EMBEDDING_RATE_LIMIT_TOKENS=20
+
+# Rate limit interval in milliseconds
+EMBEDDING_RATE_LIMIT_INTERVAL=60000
+
+# ============================================
+# DEBUG (OPTIONAL)
+# ============================================
+
+# Enable debug logging
+DEBUG=true
+
+# ============================================
+# NOTES
+# ============================================
+
+# 1. Set NEO4J_PASSWORD and OPENAI_API_KEY as SECRETS in Railway dashboard
+# 2. All other variables can be set as regular variables
+# 3. If OPENAI_API_KEY is not set, semantic search will use random embeddings
+# 4. Default values are shown for most optional variables

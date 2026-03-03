@@ -1,0 +1,24 @@
+# Railway Configuration for Memento MCP
+# Memento MCP: Knowledge graph memory system for LLMs
+
+[build]
+# Use the existing Dockerfile for building
+dockerfile = "Dockerfile"
+
+# Optional: Specify build context if different from root
+# context = "."
+
+[deploy]
+# Health check configuration (optional - Railway monitors process by default)
+# healthcheckPath = "/health"
+# healthcheckTimeout = 30
+# restartPolicyType = "on-failure"
+# restartPolicyMaxRetries = 10
+
+# Service metadata
+[service]
+name = "memento-mcp"
+description = "Memento MCP: Persistent knowledge graph memory system for LLMs"
+
+# Environment variables should be set in Railway dashboard, not here
+# See docs/railway-env.example for required variables

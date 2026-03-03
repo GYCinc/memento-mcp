@@ -39,10 +39,8 @@ yarn-error.log*
 .secret
 
 # Build directories
-dist/
-build/
-out/
-public/dist/
+# NOTE: dist/ is included for Railway deployment - Railway builds from Dockerfile
+# build/
 .next/
 .nuxt/
 .output/
