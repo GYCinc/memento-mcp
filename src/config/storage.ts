@@ -4,11 +4,14 @@ import { logger } from '../utils/logger.js';
 
 /**
  * Determines the storage type based on the environment variable
- * @param _envType Storage type from environment variable (unused)
- * @returns 'neo4j' storage type
+ * @param envType Storage type from environment variable
+ * @returns Storage type ('file' or 'neo4j')
  */
-export function determineStorageType(_envType: string | undefined): 'neo4j' {
-  // Always return neo4j regardless of input
+export function determineStorageType(envType: string | undefined): 'file' | 'neo4j' {
+  if (envType === 'file') {
+    return 'file';
+  }
+  // Default to neo4j
   return 'neo4j';
 }
 
@@ -16,8 +19,16 @@ export function determineStorageType(_envType: string | undefined): 'neo4j' {
  * Configuration for storage providers
  */
 export interface StorageConfig {
-  type: 'neo4j';
+  type: 'file' | 'neo4j';
   options: {
+    // File storage options
+    memoryFilePath?: string;
+    enableDecay?: boolean;
+    decayConfig?: {
+      enabled?: boolean;
+      halfLifeDays?: number;
+      minConfidence?: number;
+    };
     // Neo4j specific options
     neo4jUri?: string;
     neo4jUsername?: string;
@@ -32,24 +43,35 @@ export interface StorageConfig {
 
 /**
  * Creates a storage configuration object
- * @param storageType Storage type (forced to 'neo4j')
+ * @param storageType Storage type
  * @returns Storage provider configuration
  */
 export function createStorageConfig(storageType: string | undefined): StorageConfig {
-  // Neo4j is always the type
   const type = determineStorageType(storageType);
 
+  if (type === 'file') {
+    logger.info('Configuring file storage provider', {
+      filePath: process.env.MEMORY_FILE_PATH || '/tmp/memento-memory.json',
+    });
+
+    return {
+      type: 'file',
+      options: {
+        memoryFilePath: process.env.MEMORY_FILE_PATH || '/tmp/memento-memory.json',
+      },
+    };
+  }
+
+  // Neo4j configuration
   logger.info('Configuring Neo4j storage provider', {
     uri: process.env.NEO4J_URI || 'bolt://localhost:7687',
     database: process.env.NEO4J_DATABASE || 'neo4j',
     vectorIndex: process.env.NEO4J_VECTOR_INDEX || 'entity_embeddings',
   });
 
-  // Base configuration with Neo4j properties
-  const config: StorageConfig = {
-    type,
+  return {
+    type: 'neo4j',
     options: {
-      // Neo4j connection options from environment variables
       neo4jUri: process.env.NEO4J_URI || 'bolt://localhost:7687',
       neo4jUsername: process.env.NEO4J_USERNAME || 'neo4j',
       neo4jPassword: process.env.NEO4J_PASSWORD || 'memento_password',
@@ -62,8 +84,6 @@ export function createStorageConfig(storageType: string | undefined): StorageCon
         (process.env.NEO4J_SIMILARITY_FUNCTION as 'cosine' | 'euclidean') || 'cosine',
     },
   };
-
-  return config;
 }
 
 /**

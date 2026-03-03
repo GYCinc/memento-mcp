@@ -1,0 +1,77 @@
+/**
+ * Metadata for relations providing additional context and information
+ */
+export interface RelationMetadata {
+    /**
+     * Array of relation IDs that this relation was inferred from
+     */
+    inferredFrom?: string[];
+    /**
+     * Timestamp when the relation was last accessed/retrieved
+     */
+    lastAccessed?: number;
+    /**
+     * Timestamp when the relation was created
+     */
+    createdAt: number;
+    /**
+     * Timestamp when the relation was last updated
+     */
+    updatedAt: number;
+}
+/**
+ * Represents a relationship between two entities in the knowledge graph
+ */
+export interface Relation {
+    /**
+     * The source entity name (where the relation starts)
+     */
+    from: string;
+    /**
+     * The target entity name (where the relation ends)
+     */
+    to: string;
+    /**
+     * The type of relationship between the entities
+     */
+    relationType: string;
+    /**
+     * Optional strength of the relationship (0.0-1.0)
+     * Higher values indicate stronger relationships
+     */
+    strength?: number;
+    /**
+     * Optional confidence score (0.0-1.0)
+     * Represents how confident the system is about this relationship
+     * Particularly useful for inferred relations
+     */
+    confidence?: number;
+    /**
+     * Optional metadata providing additional context about the relation
+     */
+    metadata?: RelationMetadata;
+}
+export declare namespace Relation {
+    function isRelation(obj: any): boolean;
+    function hasStrength(obj: any): boolean;
+    function hasConfidence(obj: any): boolean;
+    function hasValidMetadata(obj: any): boolean;
+}
+export declare class RelationValidator {
+    /**
+     * Validates if an object conforms to the Relation interface
+     */
+    static isRelation(obj: any): boolean;
+    /**
+     * Checks if a relation has a strength value
+     */
+    static hasStrength(obj: any): boolean;
+    /**
+     * Checks if a relation has a confidence value
+     */
+    static hasConfidence(obj: any): boolean;
+    /**
+     * Checks if a relation has valid metadata
+     */
+    static hasValidMetadata(obj: any): boolean;
+}
