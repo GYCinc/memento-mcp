@@ -17,6 +17,13 @@ export declare class Neo4jConnectionManager {
     private driver;
     private readonly config;
     /**
+     * Validates and normalizes a Neo4j URI
+     * @param uri The URI to validate
+     * @returns Normalized URI with proper scheme
+     * @throws Error if URI is invalid
+     */
+    private validateAndNormalizeUri;
+    /**
      * Creates a new Neo4j connection manager
      * @param config Connection configuration
      */
