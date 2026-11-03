@@ -37,14 +37,14 @@
     "neo4j:test": "tsx src/cli/neo4j-setup.ts test"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.11.0",
+    "@modelcontextprotocol/sdk": "1.32.2",
     "axios": "^1.8.4",
     "dotenv": "^16.4.7",
     "lru-cache": "^11.1.0",
     "neo4j-driver": "^5.28.1",
     "openai": "^4.90.0",
     "ts-node": "^10.9.2",
-    "uuid": "^11.1.0"
+    "uuid": "^14.0.3"
   },
   "devDependencies": {
     "@types/lru-cache": "^7.10.10",
